@@ -1,4 +1,4 @@
-const Listing = require("../MAJOR_PROJECT/models/listing");
+const Listing = require("../MAJOR_PROJECT/models/listing.js");
 const Review = require("../MAJOR_PROJECT/models/review.js");
 const ExpressError = require("../MAJOR_PROJECT/utils/ExpressError.js");
 const { listingSchema, reviewSchema} = require("../MAJOR_PROJECT/schema.js");
