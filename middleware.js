@@ -1,7 +1,7 @@
-const Listing = require("./models/listing.js");
-const Review = require("./models/review.js");
-const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema, reviewSchema} = require("./schema.js");
+const Listing = require("../MAJOR_PROJECT/models/listing");
+const Review = require("../MAJOR_PROJECT/models/review.js");
+const ExpressError = require("../MAJOR_PROJECT/utils/ExpressError.js");
+const { listingSchema, reviewSchema} = require("../MAJOR_PROJECT/schema.js");
 
   
 module.exports.isLoggedIn = (req, res, next) => {
