@@ -10,6 +10,8 @@ const upload = multer({ storage });
 
 const listingController = require("../controllers/listings.js");
 
+
+
 router
   .route("/")
   .get(wrapAsync(listingController.index))
@@ -18,6 +20,10 @@ router
     upload.single("listing[image]"),
     validateListing, 
     wrapAsync(listingController.createListing));
+
+//category
+router.get('/category/:category', listingController.filterByCategory);
+
 
 //New Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);

@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const {categories} = require('../init/categories');
 
 
 module.exports.index = async (req, res) => {
@@ -29,6 +30,7 @@ module.exports.showListing = async (req, res) => {
 };
 
 
+
 module.exports.createListing = async (req, res, next) => {
     let url = req.file.path;
     let filename = req.file.filename;
@@ -38,7 +40,13 @@ module.exports.createListing = async (req, res, next) => {
     newListing.image = {url, filename};
     await newListing.save();
     req.flash("success", "New Listing Created!");
-    res.redirect("/listings");
+    res.redirect('/listings'); 
+};
+
+module.exports.filterByCategory = async (req, res) => {
+    const category = decodeURIComponent(req.params.category);
+    const allListings = await Listing.find({ category });
+    res.render("listings/index", { allListings, category });
 };
 
 module.exports.renderEditForm = async (req, res) => {
