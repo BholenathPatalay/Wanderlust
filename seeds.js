@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const Listing = require("../models/listing.js");
-const Category = require("../models/Category.js");
+const Listing = require("./models/listing.js");
+const Category = require("./models/Category.js");
+
 const categories = require("./init/categories");
 
 // Environment variable for MongoDB connection
