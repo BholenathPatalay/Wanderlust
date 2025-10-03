@@ -80,14 +80,16 @@ app.get("/", async (req, res) => {
       if (category) query.category = category._id;
     }
 
-    const listings = await Listing.find(query).populate("category");
+     const allListings = await Listing.find({}).populate("category");
     const categories = await Category.find({});
-    res.render("listings", { listings, categories, selectedCategory: categoryFilter });
+    res.render("listings", { allListings, categories, selectedCategory: categoryFilter });
   } catch (err) {
     console.error(err);
     res.status(500).send("Failed to fetch listings");
   }
 });
+
+
 
 // 404 handler
 app.use((req, res, next) => {
