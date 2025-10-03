@@ -50,7 +50,7 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const sessionConfig = {
-  secret: process.env.SESSION_SECRET || "thisshouldbeabettersecret",
+  secret: process.env.SECRET || "thisshouldbeabettersecret",
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: MONGO_URL }),
