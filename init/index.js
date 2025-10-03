@@ -17,8 +17,17 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  try {
+    await mongoose.connect(MONGO_URL);
+    console.log("Connected to DB");
+
+    await initDB(); // run seeding after connection
+    mongoose.connection.close(); // close after done
+  } catch (err) {
+    console.error(err);
+  }
 }
+main();
 
 const initDB = async () => {
   try {
