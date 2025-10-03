@@ -1,60 +1,78 @@
-const mongoose = require("mongoose");
-const initData = require("./data.js");
-const Listing = require("../models/listing.js");
-const Category = require("../models/Category.js");
-const initCategoryData = require('./categories.js');
+/**
+ * Seed script: connects to MongoDB, seeds categories and listings.
+ * Usage: NODE_ENV=seed node init/index.js
+ * Requires process.env.MONGO_URI (Atlas connection string).
+ */
 
+const mongoose = require('mongoose');
+const Listing = require('../models/listing');
+const Category = require('../models/Category');
+const User = require('../models/user');
+const initCategoryData = require('./categories');
+const initListings = require('./data');
 
-const MONGO_URL = process.env.MONGO_URI;
+require('dotenv').config();
 
+const MONGO_URL = process.env.MONGO_URI || process.env.MONGO_URL || 'mongodb://localhost:27017/wanderlust_dev';
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-async function main() {
+async function initDB() {
   try {
-    await mongoose.connect(MONGO_URL);
-    console.log("Connected to DB");
+    await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('✅ Connected to MongoDB');
 
-    await initDB(); // run seeding after connection
-    mongoose.connection.close(); // close after done
-  } catch (err) {
-    console.error(err);
-  }
-}
-main();
-
-const initDB = async () => {
-  try {
-    // Wipe existing data
-    await Listing.deleteMany({});
+    // Clear existing
     await Category.deleteMany({});
+    await Listing.deleteMany({});
+    await User.deleteMany({});
+    console.log('Existing collections cleared');
 
     // Insert categories
-    await Category.insertMany(initCategoryData.data);
-    console.log("Categories initialized");
+    const categories = await Category.insertMany(initCategoryData.data);
+    console.log(`Inserted ${categories.length} categories`);
 
-    // Add owner to listings
-    const listingsWithOwner = initData.data.map(obj => ({
-      ...obj,
-      owner: "67fe32ebd9223f8ab7c8b983"
-    }));
+    // helper to find category _id by name (case-insensitive)
+    const findCategoryId = (name) => {
+      if (!name) return null;
+      const found = categories.find(c => c.name.toLowerCase() === String(name).toLowerCase());
+      return found ? found._id : null;
+    };
 
-    // Insert listings
-    await Listing.insertMany(listingsWithOwner);
-    console.log("Listings initialized");
+    // Create a dummy user as owner for listings
+    const owner = new User({ username: 'seeduser', email: 'seed@example.com' });
+    await User.register(owner, 'password123');
+    console.log('Created seed user');
 
-    console.log("✅ Database seeding complete");
+    // Prepare listings
+    const listingsPrepared = initListings.map(item => {
+      const catId =
+        findCategoryId(item.category) ||
+        findCategoryId(item.category?.replace(/s$/i, '')) ||
+        null;
+
+      return {
+        title: item.title,
+        description: item.description,
+        image: item.image,
+        price: item.price,
+        location: item.location,
+        country: item.country,
+        category: catId,
+        owner: owner._id
+      };
+    });
+
+    await Listing.insertMany(listingsPrepared);
+    console.log(`Inserted ${listingsPrepared.length} listings`);
+
+    console.log('🎉 Seeding finished');
+    process.exit(0);
   } catch (err) {
-    console.error("❌ Error seeding the database:", err);
+    console.error('Seed error:', err);
+    process.exit(1);
   }
-};
-
+}
 
 initDB();
-
