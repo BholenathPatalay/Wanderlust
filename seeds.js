@@ -1,6 +1,13 @@
 // seeds.js
-const categories = require('./init/categories');
+const mongoose = require("mongoose");
+const Listing = require("../models/listing.js");
+const Category = require("../models/Category.js");
+const categories = require("./init/categories");
 
+// Environment variable for MongoDB connection
+const MONGO_URL = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/wanderlust";
+
+// Function to generate sample listings for a category
 function generateListings(category, baseTitle, baseDesc, baseUrl, basePrice, location, country) {
   return Array.from({ length: 10 }).map((_, i) => ({
     title: `${baseTitle} ${i + 1}`,
@@ -12,7 +19,8 @@ function generateListings(category, baseTitle, baseDesc, baseUrl, basePrice, loc
     price: basePrice + i * 200,
     location: location,
     country: country,
-    category: category
+    category: category,
+    owner: "67fe32ebd9223f8ab7c8b983" // example owner ID, change if needed
   }));
 }
 
@@ -84,11 +92,51 @@ const categoryDataMap = {
   }
 };
 
-// Generate listings for all categories
-const listings = categories.data.flatMap(cat => {
-  const catName = cat.name;
-  const data = categoryDataMap[catName];
-  return generateListings(catName, data.baseTitle, data.baseDesc, data.baseUrl, data.basePrice, data.location, data.country);
-});
+// Function to seed the database
+const seedDB = async () => {
+  try {
+    // Delete existing data
+    await Listing.deleteMany({});
+    await Category.deleteMany({});
 
-module.exports = listings;
+    console.log("Existing data cleared");
+
+    // Insert categories
+    await Category.insertMany(categories.data);
+    console.log("Categories initialized");
+
+    // Generate listings for all categories
+    const listings = categories.data.flatMap(cat => {
+      const catName = cat.name;
+      const data = categoryDataMap[catName];
+      return generateListings(catName, data.baseTitle, data.baseDesc, data.baseUrl, data.basePrice, data.location, data.country);
+    });
+
+    // Insert listings
+    await Listing.insertMany(listings);
+    console.log("Listings initialized");
+
+    console.log("✅ Database seeding complete");
+  } catch (err) {
+    console.error("❌ Error seeding the database:", err);
+  } finally {
+    mongoose.connection.close();
+  }
+};
+
+// Connect to MongoDB and run seeding
+const main = async () => {
+  try {
+    await mongoose.connect(MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log("Connected to MongoDB");
+
+    await seedDB();
+  } catch (err) {
+    console.error("DB connection error:", err);
+  }
+};
+
+main();
