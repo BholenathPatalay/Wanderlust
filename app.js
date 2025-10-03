@@ -27,9 +27,7 @@ class ExpressError extends Error {
 
 // Connect to MongoDB
 const MONGO_URL =
-  process.env.MONGO_URI ||
-  process.env.MONGO_URL ||
-  "mongodb://localhost:27017/wanderlust_dev";
+ process.env.ATLASDB_URL;
 
 mongoose
   .connect(MONGO_URL, {
