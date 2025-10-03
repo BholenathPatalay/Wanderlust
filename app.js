@@ -72,8 +72,13 @@ app.use((req, res, next) => {
 });
 
 // basic home route
-app.get("/", (req, res) => {
-  res.send("Wanderlust API running 🚀");
+app.get("/", async (req, res) => {
+  try {
+    const listings = await Listing.find({}).populate("category");
+    res.render("listings", { listings });
+  } catch (err) {
+    res.status(500).send("Failed to fetch listings");
+  }
 });
 
 // 404 handler (must be last route before error handler)
