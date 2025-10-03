@@ -1,5 +1,5 @@
 // seeds.js
-const categories = require('./categories');
+const categories = require('./init/categories');
 
 function generateListings(category, baseTitle, baseDesc, baseUrl, basePrice, location, country) {
   return Array.from({ length: 10 }).map((_, i) => ({
