@@ -1,4 +1,3 @@
-// seeds.js
 const mongoose = require("mongoose");
 const Listing = require("../models/listing.js");
 const Category = require("../models/Category.js");
@@ -8,18 +7,18 @@ const categories = require("./init/categories");
 const MONGO_URL = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/wanderlust";
 
 // Function to generate sample listings for a category
-function generateListings(category, baseTitle, baseDesc, baseUrl, basePrice, location, country) {
+function generateListings(categoryId, baseTitle, baseDesc, baseUrl, basePrice, location, country) {
   return Array.from({ length: 10 }).map((_, i) => ({
     title: `${baseTitle} ${i + 1}`,
     description: `${baseDesc} (Sample ${i + 1})`,
     image: {
-      filename: `${category.toLowerCase().replace(/\s+/g, '')}${i + 1}`,
+      filename: `${baseUrl.split("?")[1] || 'image'}${i + 1}`,
       url: `${baseUrl}&sig=${i + 1}`
     },
     price: basePrice + i * 200,
     location: location,
     country: country,
-    category: category,
+    category: categoryId,          // reference to Category
     owner: "67fe32ebd9223f8ab7c8b983" // example owner ID, change if needed
   }));
 }
@@ -98,18 +97,23 @@ const seedDB = async () => {
     // Delete existing data
     await Listing.deleteMany({});
     await Category.deleteMany({});
-
     console.log("Existing data cleared");
 
-    // Insert categories
-    await Category.insertMany(categories.data);
+    // Insert categories and get inserted documents
+    const insertedCategories = await Category.insertMany(categories.data);
     console.log("Categories initialized");
 
-    // Generate listings for all categories
+    // Map category names to their ObjectId
+    const categoryMap = {};
+    insertedCategories.forEach(cat => {
+      categoryMap[cat.name] = cat._id;
+    });
+
+    // Generate listings for all categories using ObjectId
     const listings = categories.data.flatMap(cat => {
       const catName = cat.name;
       const data = categoryDataMap[catName];
-      return generateListings(catName, data.baseTitle, data.baseDesc, data.baseUrl, data.basePrice, data.location, data.country);
+      return generateListings(categoryMap[catName], data.baseTitle, data.baseDesc, data.baseUrl, data.basePrice, data.location, data.country);
     });
 
     // Insert listings
