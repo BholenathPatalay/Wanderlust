@@ -26,16 +26,22 @@ class ExpressError extends Error {
 }
 
 // Connect to MongoDB
-const MONGO_URL = process.env.MONGO_URI || process.env.MONGO_URL || "mongodb://localhost:27017/wanderlust_dev";
+const MONGO_URL =
+  process.env.MONGO_URI ||
+  process.env.MONGO_URL ||
+  "mongodb://localhost:27017/wanderlust_dev";
 
-mongoose.connect(MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("Connected to MongoDB");
-}).catch((err) => {
-  console.error("Mongo connection error:", err);
-});
+mongoose
+  .connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("❌ Mongo connection error:", err);
+  });
 
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
@@ -53,8 +59,8 @@ const sessionConfig = {
   cookie: {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 };
 
 app.use(session(sessionConfig));
@@ -76,14 +82,15 @@ app.use((req, res, next) => {
 
 // basic home route
 app.get("/", (req, res) => {
-  res.send("Wanderlust API running");
+  res.send("Wanderlust API running 🚀");
 });
 
-// 404 and error handlers
-app.all("/*", (req, res, next) => {
+// 404 handler (must be last route before error handler)
+app.use((req, res, next) => {
   next(new ExpressError(404, "Page Not Found"));
 });
 
+// error handler
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (res.headersSent) return next(err);
@@ -93,7 +100,7 @@ app.use((err, req, res, next) => {
 // Start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  console.log(`🌍 Server listening on port ${PORT}`);
 });
 
 module.exports = app;
