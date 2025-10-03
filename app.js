@@ -72,21 +72,15 @@ app.use((req, res, next) => {
 
 // Root route with optional category filter
 app.get("/", async (req, res) => {
-  try {
-    const categoryFilter = req.query.category || null;
-    let query = {};
-    if (categoryFilter) {
-      const category = await Category.findOne({ name: categoryFilter });
-      if (category) query.category = category._id;
-    }
-
-     const allListings = await Listing.find({}).populate("category");
-    const categories = await Category.find({});
-    res.render("listings", { allListings, categories, selectedCategory: categoryFilter });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Failed to fetch listings");
+  const selectedCategory = req.query.category || null;
+  let query = {};
+  if (selectedCategory) {
+    const cat = await Category.findOne({ name: selectedCategory });
+    if (cat) query.category = cat._id;
   }
+  const allListings = await Listing.find(query).populate("category");
+  const categories = await Category.find({});
+  res.render("listings", { allListings, categories, selectedCategory });
 });
 
 
