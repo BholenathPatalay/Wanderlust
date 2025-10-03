@@ -5,10 +5,10 @@
   "name": "major_project",
   "version": "1.0.0",
   "main": "app.js",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js",
-    "seed": "node init/index.js"
+ "scripts": {
+    "start": "node index.js",
+    "seed:safe": "node postDeploySeedSafe.js",
+    "postdeploy": "npm run seed:safe"
   },
   "keywords": [],
   "author": "",
