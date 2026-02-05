@@ -126,18 +126,18 @@ const generateImageUrl = (category, index) => {
 
 async function seedDB() {
   try {
-    console.log("🌱 Starting database seeding...");
+    console.log("Starting database seeding...");
     
     await mongoose.connect(MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ Connected to MongoDB");
+    console.log("Connected to MongoDB");
 
     // Clear existing data
     await Listing.deleteMany({});
     await Category.deleteMany({});
-    console.log("✅ Existing data cleared");
+    console.log("Existing data cleared");
 
     // Insert categories
     const categories = [
@@ -152,7 +152,7 @@ async function seedDB() {
     ];
     
     const insertedCategories = await Category.insertMany(categories);
-    console.log("✅ Categories initialized");
+    console.log("Categories initialized");
 
     // Find or create a default user for listings
     let defaultUser;
@@ -164,10 +164,10 @@ async function seedDB() {
           email: "owner@airbnbclone.com"
         });
         await User.register(defaultUser, "demo123");
-        console.log("✅ Default user created");
+        console.log("Default user created");
       }
     } catch (error) {
-      console.log("⚠️ Using hardcoded owner ID");
+      console.log("Using hardcoded owner ID");
       defaultUser = { _id: "67fe32ebd9223f8ab7c8b983" };
     }
 
@@ -205,24 +205,24 @@ async function seedDB() {
 
     // Insert all listings
     await Listing.insertMany(allListings);
-    console.log(`✅ ${allListings.length} listings seeded successfully`);
+    console.log(`${allListings.length} listings seeded successfully`);
 
     // Show summary
     const categoryCounts = await Listing.aggregate([
       { $group: { _id: '$category', count: { $sum: 1 } } }
     ]);
     
-    console.log('\n📊 Seeding Summary:');
+    console.log('\nSeeding Summary:');
     categoryCounts.forEach(cat => {
       console.log(`   ${cat._id}: ${cat.count} listings`);
     });
 
   } catch (err) {
-    console.error("❌ Seeding error:", err);
+    console.error("Seeding error:", err);
     throw err;
   } finally {
     await mongoose.connection.close();
-    console.log("✅ Database connection closed");
+    console.log("Database connection closed");
   }
 }
 

@@ -37,7 +37,7 @@ mongoose.connect(MONGO_URL, {
 
 // Enhanced Auto-seed functionality
 if (process.env.RESET_DB === "true") {
-  console.log("🔄 RESET_DB=true, seeding database...");
+  console.log("RESET_DB=true, seeding database...");
   // Delay seeding to ensure DB connection is stable
   setTimeout(async () => {
     try {
@@ -112,7 +112,7 @@ app.post("/admin/seed-database", async (req, res) => {
   }
   
   try {
-    console.log("🔄 Manual seeding triggered via API...");
+    console.log("Manual seeding triggered via API...");
     const seedDB = require("./seeds/seeds.js");
     await seedDB();
     res.json({ success: true, message: "Database seeded successfully" });

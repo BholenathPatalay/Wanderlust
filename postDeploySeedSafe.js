@@ -100,16 +100,16 @@ async function safeSeed() {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-    console.log("✅ Connected to MongoDB for safe seeding");
+    console.log("Connected to MongoDB for safe seeding");
 
     // Create categories if missing
     for (const cat of categories.data) {
       const existingCat = await Category.findOne({ name: cat.name });
       if (!existingCat) {
         const newCat = await Category.create(cat);
-        console.log(`🟢 Category created: ${cat.name}`);
+        console.log(`Category created: ${cat.name}`);
       } else {
-        console.log(`⚪ Category exists: ${cat.name}`);
+        console.log(`Category exists: ${cat.name}`);
       }
     }
 
@@ -124,23 +124,23 @@ async function safeSeed() {
       if (existingListings === 0) {
         const data = categoryDataMap[cat.name];
         if (!data) {
-          console.warn(`⚠️ No listing seed data for category: ${cat.name}`);
+          console.warn(`No listing seed data for category: ${cat.name}`);
           continue;
         }
 
         const listings = generateListings(categoryMap[cat.name], data);
         await Listing.insertMany(listings);
-        console.log(`🟢 Listings seeded for category: ${cat.name}`);
+        console.log(`Listings seeded for category: ${cat.name}`);
       } else {
-        console.log(`⚪ Listings already exist for category: ${cat.name}`);
+        console.log(`Listings already exist for category: ${cat.name}`);
       }
     }
 
   } catch (err) {
-    console.error("❌ Seeding error:", err);
+    console.error("Seeding error:", err);
   } finally {
     await mongoose.connection.close();
-    console.log("✅ MongoDB connection closed");
+    console.log("MongoDB connection closed");
   }
 }
 
