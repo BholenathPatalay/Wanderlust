@@ -32,8 +32,8 @@ mongoose.connect(MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("✅ MongoDB connected"))
-.catch(err => console.error("❌ MongoDB connection error:", err));
+.then(() => console.log(" MongoDB connected"))
+.catch(err => console.error(" MongoDB connection error:", err));
 
 // Enhanced Auto-seed functionality
 if (process.env.RESET_DB === "true") {
@@ -43,9 +43,9 @@ if (process.env.RESET_DB === "true") {
     try {
       const seedDB = require("./seeds/seeds.js");
       await seedDB();
-      console.log("✅ Database seeded successfully");
+      console.log(" Database seeded successfully");
     } catch (error) {
-      console.error("❌ Seeding failed:", error);
+      console.error(" Seeding failed:", error);
     }
   }, 3000);
 }
@@ -117,7 +117,7 @@ app.post("/admin/seed-database", async (req, res) => {
     await seedDB();
     res.json({ success: true, message: "Database seeded successfully" });
   } catch (error) {
-    console.error("❌ Seeding failed:", error);
+    console.error(" Seeding failed:", error);
     res.status(500).json({ error: "Seeding failed: " + error.message });
   }
 });
@@ -142,7 +142,7 @@ app.get("/map", (req, res) => {
 // Listen
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`🚀 Server is listening on port ${PORT}`);
-  console.log(`🌱 To seed database, run: npm run seed`);
-  console.log(`🔄 Or set RESET_DB=true environment variable`);
+  console.log(` Server is listening on port ${PORT}`);
+  console.log(`To seed database, run: npm run seed`);
+  console.log(` Or set RESET_DB=true environment variable`);
 });
