@@ -21,7 +21,7 @@ async function initDB() {
       useNewUrlParser: true,
       useUnifiedTopology: true
     });
-    console.log('✅ Connected to MongoDB');
+    console.log('Connected to MongoDB');
 
     // Clear existing
     await Category.deleteMany({});
@@ -67,7 +67,7 @@ async function initDB() {
     await Listing.insertMany(listingsPrepared);
     console.log(`Inserted ${listingsPrepared.length} listings`);
 
-    console.log('🎉 Seeding finished');
+    console.log('Seeding finished');
     process.exit(0);
   } catch (err) {
     console.error('Seed error:', err);
