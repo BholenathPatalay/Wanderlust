@@ -1,4 +1,5 @@
 const Listing = require("../models/listing");
+const Category = require("../models/category");
 const { categories } = require("../init/categories");
 
 
@@ -17,8 +18,20 @@ module.exports.index = async (req, res) => {
 
     let filter = {};
 
-    if(selectedCategory) {
-        filter.category = selectedCategory;
+    if (selectedCategory) {
+
+        const categoryDoc = await Category.findOne({
+
+            name: selectedCategory
+
+        });
+
+        if (categoryDoc) {
+
+            filter.category = categoryDoc._id;
+
+        }
+
     }
 
     if(search){
