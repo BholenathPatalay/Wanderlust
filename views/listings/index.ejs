@@ -49,7 +49,7 @@
             <h5 class="card-title"><%= listing.title %></h5>
             <p class="card-text mb-1">&#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "0" %></p>
             <p class="card-text text-muted" style="font-size: 0.85rem;"><%= listing.location %>, <%= listing.country %></p>
-            <span class="badge bg-primary"><%= listing.category.name %></span>
+            <span class="badge bg-primary"><%= listing.category?.name %></span>
           </div>
         </div>
       </a>
