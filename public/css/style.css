@@ -1,4 +1,4 @@
-
+/* ===== RESET & BASE STYLES ===== */
 * {
     margin: 0;
     padding: 0;
@@ -6,18 +6,23 @@
 }
 
 :root {
+    /* Airbnb official color palette */
+    --primary-color: #ff385c;           
+    --primary-light: #fff8f9;            
+    --primary-dark: #e00b41;         
+    --secondary-color: #222222;         
+    --text-color: #222222;                 
+    --text-light: #717171;                  
+    --border-color: #dddddd;                 
+    --bg-light: #f7f7f7;                     
+    --white: #ffffff;                          
+    --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);    
+    --shadow-hover: 0 16px 32px rgba(0, 0, 0, 0.15); 
+    --transition: all 0.2s ease;                   
     
-    --primary-color: #ff385c;
-    --primary-dark: #e31c5f;
-    --secondary-color: #222222;
-    --text-color: #222222;
-    --text-light: #717171;
-    --border-color: #dddddd;
-    --bg-light: #f7f7f7;
-    --white: #ffffff;
-    --shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.08);
-    --transition: all 0.2s ease;
+    /* Airbnb gradient (used in logo) */
+    --gradient: radial-gradient(circle at 20% 30%, #ff385c, #e00b41);
 }
 
 body {
@@ -43,24 +48,21 @@ h1 {
     font-size: 2rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    color: var(--text-color);
 }
 
 h3 {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
+    color: var(--text-color);
 }
 
 h4 {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1rem;
-}
-
-h6 {
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
+    color: var(--text-color);
 }
 
 /* ===== NAVBAR ===== */
@@ -72,7 +74,10 @@ h6 {
 }
 
 .navbar-brand {
-    color: var(--primary-color);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
     font-size: 2rem;
     padding: 0;
     margin-right: 24px;
@@ -80,6 +85,10 @@ h6 {
 
 .navbar-brand i {
     font-size: 2rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .navbar-nav {
@@ -103,6 +112,60 @@ h6 {
 
 .navbar-nav.ms-auto .nav-link {
     font-weight: 400;
+}
+
+/* Special Airbnb your home link */
+.navbar-nav .nav-link[href="/listings/new"] {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.navbar-nav .nav-link[href="/listings/new"]:hover {
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+}
+
+/* ===== SEARCH BAR STYLES ===== */
+.navbar form {
+    max-width: 400px;
+    width: 100%;
+    margin: 0 24px;
+}
+
+.search-input {
+    border: 1px solid var(--border-color);
+    border-radius: 40px 0 0 40px !important;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    background-color: var(--white);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.1);
+    outline: none;
+}
+
+.search-btn {
+    border: 1px solid var(--border-color);
+    border-left: none;
+    border-radius: 0 40px 40px 0 !important;
+    padding: 12px 24px;
+    background: var(--gradient);
+    color: var(--white);
+    transition: var(--transition);
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+    color: var(--white);
+    transform: scale(1.02);
+}
+
+.search-btn i {
+    font-size: 1rem;
 }
 
 /* ===== FILTERS SECTION ===== */
@@ -140,17 +203,32 @@ h6 {
 
 .filter:hover {
     color: var(--text-color);
-    border-bottom-color: var(--border-color);
+    border-bottom-color: var(--primary-color);
 }
 
 .filter i {
     font-size: 1.5rem;
     color: var(--text-light);
+    transition: var(--transition);
+}
+
+.filter:hover i {
+    color: var(--primary-color);
 }
 
 .filter p {
     margin: 0;
     line-height: 1.2;
+}
+
+/* Active filter state */
+.filter.active {
+    color: var(--text-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.filter.active i {
+    color: var(--primary-color);
 }
 
 /* ===== LISTING CARDS ===== */
@@ -180,6 +258,7 @@ h6 {
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
 }
 
 .listing-img {
@@ -187,6 +266,10 @@ h6 {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+}
+
+.listing-card:hover .image-container {
+    box-shadow: var(--shadow-hover);
 }
 
 .listing-card:hover .listing-img {
@@ -208,6 +291,7 @@ h6 {
     cursor: pointer;
     transition: var(--transition);
     z-index: 2;
+    backdrop-filter: blur(4px);
 }
 
 .heart-btn:hover {
@@ -218,6 +302,10 @@ h6 {
 .heart-btn i {
     font-size: 1.2rem;
     color: var(--text-color);
+}
+
+.heart-btn i.fa-solid.fa-heart {
+    color: var(--primary-color);
 }
 
 .price-tag {
@@ -232,6 +320,7 @@ h6 {
     color: var(--text-color);
     box-shadow: var(--shadow-sm);
     z-index: 2;
+    backdrop-filter: blur(4px);
 }
 
 .card-body {
@@ -258,10 +347,11 @@ h6 {
 
 /* ===== SHOW PAGE (Individual Listing) ===== */
 .show-img {
-    border-radius: 12px;
+    border-radius: 16px;
     max-height: 500px;
     width: 100%;
     object-fit: cover;
+    box-shadow: var(--shadow);
 }
 
 .listing-card.show-card {
@@ -275,9 +365,10 @@ h6 {
 
 .pri-img {
     max-width: 200px;
-    border-radius: 8px;
+    border-radius: 12px;
     margin: 12px 0;
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
 .btns {
@@ -287,7 +378,7 @@ h6 {
 }
 
 .edit-btn {
-    background-color: var(--primary-color);
+    background: var(--gradient);
     color: var(--white);
     border: none;
     padding: 10px 24px;
@@ -297,8 +388,10 @@ h6 {
 }
 
 .edit-btn:hover {
-    background-color: var(--primary-dark);
+    background: var(--primary-dark);
     color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-dark {
@@ -312,59 +405,61 @@ h6 {
 
 .btn-dark:hover {
     background-color: #000;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
 }
 
-/* ===== MAP SECTION ===== */
-.listing-map {
-    height: 400px;
-    width: 100%;
-    border-radius: 12px;
+/* ===== FILTER BUTTON STYLES ===== */
+.filter-btn {
     border: 1px solid var(--border-color);
-    margin-top: 12px;
-}
-
-/* ===== FORMS ===== */
-.form-label {
-    font-weight: 500;
+    border-radius: 40px;
+    padding: 8px 16px;
+    background-color: var(--white);
     color: var(--text-color);
-    margin-bottom: 8px;
-}
-
-.form-control, .form-select {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 12px 16px;
     transition: var(--transition);
+    font-weight: 500;
 }
 
-.form-control:focus, .form-select:focus {
+.filter-btn:hover {
     border-color: var(--secondary-color);
-    box-shadow: 0 0 0 4px rgba(34, 34, 34, 0.1);
-    outline: none;
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
 }
 
-.btn-success {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 12px 24px;
+.filter-btn i {
+    color: var(--primary-color);
+}
+
+/* Price Filter Indicator */
+.price-filter-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gradient);
+    padding: 4px 16px;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    color: var(--white);
     font-weight: 500;
-    border-radius: 8px;
+}
+
+.price-filter-indicator i {
+    color: var(--white);
+}
+
+.clear-filter {
+    color: var(--white);
+    text-decoration: none;
+    margin-left: 4px;
+    font-size: 1rem;
+    opacity: 0.9;
     transition: var(--transition);
 }
 
-.btn-success:hover {
-    background-color: var(--primary-dark);
-}
-
-.add-btn {
-    background-color: var(--primary-color);
+.clear-filter:hover {
     color: var(--white);
-    border: none;
-    padding: 12px 32px;
-    font-weight: 500;
-    border-radius: 8px;
-    width: auto;
-    min-width: 120px;
+    opacity: 1;
+    transform: scale(1.1);
 }
 
 /* ===== PAGINATION ===== */
@@ -383,14 +478,14 @@ h6 {
 }
 
 .page-link:hover {
-    background-color: var(--bg-light);
-    color: var(--text-color);
-    border-color: var(--border-color);
+    background-color: var(--primary-light);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .page-item.active .page-link {
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
+    background: var(--gradient);
+    border-color: var(--primary-color);
     color: var(--white);
 }
 
@@ -429,6 +524,7 @@ footer {
 
 .f-info-social i:hover {
     color: var(--primary-color);
+    transform: translateY(-2px);
 }
 
 .f-info-links {
@@ -443,14 +539,50 @@ footer {
 }
 
 .f-info-links a:hover {
-    color: var(--text-color);
+    color: var(--primary-color);
     text-decoration: underline;
 }
 
-/* ===== MOBILE FIRST RESPONSIVE ===== */
+/* ===== MODAL STYLES ===== */
+.modal-content {
+    border-radius: 16px;
+    border: none;
+    box-shadow: var(--shadow);
+}
 
-/* Mobile (up to 576px) */
-@media (max-width: 576px) {
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px 24px;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.input-group-text {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-right: none;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input-group .form-control {
+    border-left: none;
+}
+
+.input-group .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.1);
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
     main {
         padding: 16px;
     }
@@ -462,6 +594,35 @@ footer {
 
     .navbar-brand i {
         font-size: 1.5rem;
+    }
+
+    .navbar form {
+        margin: 12px 0;
+        max-width: 100%;
+        order: 3;
+    }
+    
+    .navbar-collapse {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px 0;
+    }
+    
+    .navbar-nav {
+        margin: 8px 0;
+        align-items: stretch;
+    }
+    
+    .navbar-nav.me-auto,
+    .navbar-nav.ms-auto {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100%;
+    }
+    
+    .nav-link {
+        text-align: center;
+        padding: 12px !important;
     }
 
     #filters {
@@ -481,6 +642,10 @@ footer {
     .price-tag {
         font-size: 0.8rem;
         padding: 4px 8px;
+    }
+
+    .show-img {
+        max-height: 300px;
     }
 
     .listing-map {
@@ -511,33 +676,41 @@ footer {
     }
 }
 
-/* Tablet (577px to 768px) */
-@media (min-width: 577px) and (max-width: 768px) {
-    main {
-        padding: 20px;
+/* ===== TABLET RESPONSIVE ===== */
+@media (min-width: 769px) and (max-width: 992px) {
+    .navbar form {
+        max-width: 250px;
+        margin: 0 12px;
+    }
+    
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 8px 12px !important;
     }
 
-    #filters {
-        gap: 20px;
-    }
-
-    .f-info {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+    .col-md-4 {
+        width: 33.333%;
     }
 }
 
-/* Desktop (769px and above) */
-@media (min-width: 769px) {
+/* ===== DESKTOP ===== */
+@media (min-width: 993px) {
+    .navbar form {
+        max-width: 350px;
+    }
+
     .col-lg-3 {
         flex: 0 0 auto;
         width: 25%;
     }
 }
 
-/* Large Desktop (1200px and above) */
+/* ===== LARGE DESKTOP ===== */
 @media (min-width: 1200px) {
+    .navbar form {
+        max-width: 400px;
+    }
+
     .col-xl-2 {
         flex: 0 0 auto;
         width: 20%;
@@ -570,7 +743,7 @@ footer {
     --bs-gutter-y: 1.5rem;
 }
 
-/* ===== FORM VALIDATION STYLES ===== */
+/* ===== FORM VALIDATION ===== */
 .was-validated .form-control:valid,
 .form-control.is-valid {
     border-color: #198754;
