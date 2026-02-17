@@ -85,55 +85,39 @@
 
 
 
-  <div class="col-8 offset-2 mt-4">
+<div class="col-8 offset-2 mt-4">
 
-    <% if(currUser) { %>
+  <% if(currentUser) { %>
 
-    <hr>
+  <hr>
 
-    <h4>Leave a Review</h4>
+  <h4>Leave a Review</h4>
 
-    <form
-      action="/listings/<%= listing.id %>/reviews"
-      method="POST"
-    >
+  <form action="/listings/<%= listing.id %>/reviews" method="POST">
 
-      <fieldset class="starability-slot">
+    <fieldset class="starability-slot">
 
-        <input
-          type="radio"
-          name="review[rating]"
-          value="1"
-          checked
-        >
+      <input type="radio" name="review[rating]" value="1" checked>
 
-        <input type="radio" name="review[rating]" value="2">
+      <input type="radio" name="review[rating]" value="2">
 
-        <input type="radio" name="review[rating]" value="3">
+      <input type="radio" name="review[rating]" value="3">
 
-        <input type="radio" name="review[rating]" value="4">
+      <input type="radio" name="review[rating]" value="4">
 
-        <input type="radio" name="review[rating]" value="5">
+      <input type="radio" name="review[rating]" value="5">
 
-      </fieldset>
+    </fieldset>
 
+    <textarea name="review[comment]" class="form-control mt-2" required></textarea>
 
-      <textarea
-        name="review[comment]"
-        class="form-control mt-2"
-        required
-      ></textarea>
+    <button class="btn btn-outline-dark mt-2">
+      Submit
+    </button>
 
+  </form>
 
-      <button class="btn btn-outline-dark mt-2">
-
-        Submit
-
-      </button>
-
-    </form>
-
-    <% } %>
+  <% } %>
 
 
     <hr>
