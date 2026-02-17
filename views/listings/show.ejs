@@ -169,20 +169,18 @@
 
   </div>
 
+<div class="col-6 offset-2 mt-4">
 
-  <div class="col-6 offset-2 mt-4">
-
-    <h4>Where you'll be</h4>
-
+  <h4>Where you'll be</h4>
+  
     <div
       id="map-<%= listing._id %>"
       class="listing-map"
+      data-location="<%= listing.location %>"
     ></div>
 
-  </div>
-
-
 </div>
+
 
 
 <script src="/js/map.js"></script>
