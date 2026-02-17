@@ -323,6 +323,12 @@ h4 {
     backdrop-filter: blur(4px);
 }
 
+.listing-map{
+width:100%;
+height:300px;
+border-radius:12px;
+}
+
 .card-body {
     padding: 0;
 }
