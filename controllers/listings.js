@@ -1,5 +1,5 @@
 const Listing = require("../models/listing");
-const Category = require("../models/category");
+const Category = require("../models/Category");
 const { categories } = require("../init/categories");
 
 
