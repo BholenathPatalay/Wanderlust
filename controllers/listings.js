@@ -114,32 +114,6 @@ module.exports.createListing = async (req, res) => {
 
 
 
-// ================= FILTER CATEGORY =================
-
-module.exports.filterByCategory = async (req, res) => {
-
-    const categoryName = req.params.category;
-
-    const allListings = await Listing.find({})
-        .populate("category")
-        .populate("owner");
-
-    const filteredListings = allListings.filter(
-
-        listing => listing.category?.name === categoryName
-
-    );
-
-    res.render("listings/index.ejs", {
-
-        allListings: filteredListings,
-        category: categoryName
-
-    });
-
-};
-
-
 
 // ================= EDIT FORM =================
 
