@@ -56,7 +56,8 @@
   </div>
 
 
-  <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
+  <% if(currentUser && listing.owner && listing.owner._id.equals(currentUser._id)) { %>
+
 
   <div class="btns col-6 offset-2 mt-3">
 
