@@ -21,8 +21,7 @@ router
     validateListing, 
     wrapAsync(listingController.createListing));
 
-//category
-router.get('/category/:category', listingController.filterByCategory);
+
 
 
 //New Route
