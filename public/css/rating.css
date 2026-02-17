@@ -1,3 +1,5 @@
+/* STARABILITY RATING SYSTEM */
+
 .starability-result {
   position: relative;
   width: 150px;
@@ -8,7 +10,7 @@
 }
 
 .starability-result:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   height: 30px;
@@ -16,8 +18,54 @@
   background-position: 0 -30px;
 }
 
-.starability-result[data-rating="5"]::after { width: 150px; }
-.starability-result[data-rating="4"]::after { width: 120px; }
-.starability-result[data-rating="3"]::after { width: 90px; }
-.starability-result[data-rating="2"]::after { width: 60px; }
-.starability-result[data-rating="1"]::after { width: 30px; }
+.starability-result[data-rating="5"]::after {
+  width: 150px;
+}
+
+.starability-result[data-rating="4"]::after {
+  width: 120px;
+}
+
+.starability-result[data-rating="3"]::after {
+  width: 90px;
+}
+
+.starability-result[data-rating="2"]::after {
+  width: 60px;
+}
+
+.starability-result[data-rating="1"]::after {
+  width: 30px;
+}
+
+
+/* STAR INPUT */
+
+.starability-slot {
+  display: block;
+  position: relative;
+  width: 150px;
+  min-height: 60px;
+}
+
+.starability-slot > input {
+  position: absolute;
+  opacity: 0;
+}
+
+.starability-slot > label {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAA8CAMAAABGivqtAAAA...");
+  background-position: 0 -30px;
+}
+
+.starability-slot > input:checked ~ label {
+  background-position: 0 0;
+}
+
+.starability-slot > input:hover ~ label {
+  background-position: 0 0;
+}
