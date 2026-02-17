@@ -1,3 +1,7 @@
+const Listing = require("../models/listing");
+const Category = require("../models/Category");
+const { categories } = require("../init/categories");
+
 // ================= INDEX =================
 module.exports.index = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
