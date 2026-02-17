@@ -6,11 +6,46 @@ const { categories } = require("../init/categories");
 
 module.exports.index = async (req, res) => {
 
-    const allListings = await Listing.find({})
-        .populate("category")
-        .populate("owner");
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
 
-    res.render("listings/index.ejs", { allListings });
+    const selectedCategory = req.query.category || "";
+    const search = req.query.search || "";
+    const minPrice = req.query.minPrice || "";
+    const maxPrice = req.query.maxPrice || "";
+
+
+    let filter = {};
+
+    if(selectedCategory) {
+        filter.category = selectedCategory;
+    }
+
+    if(search){
+        filter.$or = [
+            {title: {$regex: search, $options: "i"}},
+            {location: {$regex: search, $options: "i"}},
+            {country: {$regex: search, $options: "i"}},
+            {description: {$regex: search, $options: "i"}},
+        ]
+    }
+
+    if(minPrice || maxPrice) {
+        filter.price = {};
+        if(minPrice) filter.price.$gte = Number(minPrice);
+        if(maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const totalListings = await Listing.countDocuments(filter);
+    const totalPages = Math.ceil(totalListings/limit);
+    
+    const allListings = await Listing.find(filter)
+        .populate("category")
+        .populate("owner")
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+    res.render("listings/index.ejs", { allListings, totalPages, page, selectedCategory, search, minPrice, maxPrice});
 
 };
 
@@ -19,9 +54,7 @@ module.exports.index = async (req, res) => {
 // ================= NEW FORM =================
 
 module.exports.renderNewForm = (req, res) => {
-
     res.render("listings/new.ejs");
-
 };
 
 
@@ -31,11 +64,8 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.showListing = async (req, res) => {
 
     let { id } = req.params;
-
     const listing = await Listing.findById(id)
-
         .populate("category")
-
         .populate({
             path: "reviews",
             populate: {
@@ -47,17 +77,12 @@ module.exports.showListing = async (req, res) => {
 
 
     if (!listing) {
-
         req.flash("error", "Listing you requested does not exist");
-
         return res.redirect("/listings");
-
     }
 
     res.render("listings/show.ejs", {
-
         listing,
-
         mapToken: process.env.MAP_TOKEN
 
     });
@@ -108,7 +133,6 @@ module.exports.filterByCategory = async (req, res) => {
     res.render("listings/index.ejs", {
 
         allListings: filteredListings,
-
         category: categoryName
 
     });
