@@ -1,39 +1,48 @@
 <% layout("/layouts/boilerplate") %>
 
 <div id="filters">
-  <a href="/listings/category=Trending" class="filter">
+
+  <a href="/listings?category=Trending" class="filter">
     <i class="fa-solid fa-fire"></i>
     <p>Trending</p>
   </a>
-  <a href="/listings/category=Rooms" class="filter">
+
+  <a href="/listings?category=Rooms" class="filter">
     <i class="fa-solid fa-bed"></i>
     <p>Rooms</p>
   </a>
-  <a href="/listings/category=Iconic Cities" class="filter">
+
+  <a href="/listings?category=Iconic Cities" class="filter">
     <i class="fa-solid fa-mountain-city"></i>
     <p>Iconic Cities</p>
   </a>
-  <a href="/listings/category=Mountains" class="filter">
+
+  <a href="/listings?category=Mountains" class="filter">
     <i class="fa-solid fa-mountain"></i>
     <p>Mountains</p>
   </a>
-  <a href="/listings/category=Castles" class="filter">
+
+  <a href="/listings?category=Castles" class="filter">
     <i class="fa-brands fa-fort-awesome"></i>
     <p>Castles</p>
   </a>
-  <a href="/listings/category=Amazing Pools" class="filter">
+
+  <a href="/listings?category=Amazing Pools" class="filter">
     <i class="fa-solid fa-person-swimming"></i>
     <p>Amazing Pools</p>
   </a>
-  <a href="/listings/category=Camping" class="filter">
+
+  <a href="/listings?category=Camping" class="filter">
     <i class="fa-solid fa-campground"></i>
     <p>Camping</p>
   </a>
-  <a href="/listings/category=Farms" class="filter">
+
+  <a href="/listings?category=Farms" class="filter">
     <i class="fa-solid fa-tractor"></i>
     <p>Farms</p>
   </a>
 </div>
+
 
 <div class="row g-4">
   <% allListings.forEach(listing => { %>
